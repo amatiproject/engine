@@ -208,7 +208,8 @@
 
 
 
-;(display (print-xml svg))
+;(display (print-xml svg-example))
+
 
 ;(display (print-xml svg))
 ;(display (print-xml (xml-body-append svg (svg-text "11" "11" "poop"))))

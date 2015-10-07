@@ -4,7 +4,7 @@
 (define (remainder a b) (mod a b))
 (define pi 3.14159)
 
-(define error raise)
+
 
 
 (define drawp #t)
@@ -1213,6 +1213,8 @@
 (define (top? center-pt start-pt end-pt)
 	(negative? (* (- (ycor start-pt) (ycor center-pt)) (- (xcor start-pt) (xcor center-pt)))))
 
+(define (average num1 num2) (/ (+ num1 num2) 2))
+
 (define (drawarc-1 oo pt1 pt2 c)
 ;  (send dc set-pen c 1 'short-dash)
   (drawseg oo pt1)
@@ -1228,6 +1230,7 @@
                 (center (map-point oo))
                 (start-pt (map-point pt1))
                 (end-pt (map-point pt2))
+		(fact (positive? (- (average (xcor pt1) (xcor pt2)) (xcor oo))))
                 (corner (vec+ (map-point oo) (scalevec r1 (point -1 -1)))))
 ;            (write (list (r->ang alpha) (r->ang beta))) (newline)
             ;(send dc set-pen "yellow" 0 'solid)
@@ -1240,8 +1243,8 @@
 		(add-element (svg-circle (xcor start-pt) (ycor start-pt) 3 (make-att "fill" "green")))
 		;(add-element (svg-circle (xcor end-pt) (ycor end-pt) 3 (make-att "fill" "purple")))
             (if #t 
-		(add-element (svg-arc (xcor start-pt) (ycor start-pt) r2 r1 (xcor end-pt) (ycor end-pt) (and (top? center start-pt end-pt) (> (- beta alpha) pi)) (make-att "stroke" c)))
-		(add-element (svg-arc (xcor start-pt) (ycor start-pt) r2 r1 (xcor end-pt) (ycor end-pt) (make-att "stroke" c)))
+		;(add-element (svg-arc (xcor start-pt) (ycor start-pt) r2 r1 (xcor end-pt) (ycor end-pt) (and (top? center start-pt end-pt) (> (- beta alpha) pi)) (make-att "stroke" c)))
+		(add-element (svg-arc (xcor start-pt) (ycor start-pt) r2 r1 (xcor end-pt) (ycor end-pt) (if (positive? (ycor oo)) fact (not fact)) (make-att "alpha" alpha) (make-att "beta" beta) (make-att "stroke" c) (make-att "center" (xcor oo)))) ;HARRY LOOK HERE
                 ; 0.0 was 0.5
 ;              (darc (+ 0.0 (xcor corner)) (+ 0.0 (ycor corner))
 ;                                (* 2 (+ 0.0 r)) 
