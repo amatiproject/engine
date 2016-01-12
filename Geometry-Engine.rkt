@@ -1462,7 +1462,12 @@
 ; choose a dest through a dialog
 
 ;(define dc (new pdf-dc% [interactive #f] [width 1200] [height 1600])) 
-(define dc (new pdf-dc% [interactive #f] [width 800] [height 1200])) 
+
+(define stdout (current-output-port))
+(current-output-port (open-output-nowhere))
+(current-error-port (open-output-nowhere))
+
+(define dc (new svg-dc% [width 1000] [height 1300] [output stdout])) 
 
 (send dc start-doc "...")
 (send dc start-page)
@@ -1489,5 +1494,4 @@
 ; ;;;;
   (send dc end-page)
   (send dc end-doc))
- 
 
